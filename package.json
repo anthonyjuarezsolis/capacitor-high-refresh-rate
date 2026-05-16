@@ -1,0 +1,65 @@
+{
+  "name": "@ajuarezso/capacitor-high-refresh-rate",
+  "version": "0.6.0",
+  "description": "Capacitor plugin to unlock ProMotion / high refresh rate (90Hz/120Hz) on iOS and Android. On iOS uses Info.plist + WebKit private feature flag to bypass WKWebView 60Hz cap. On Android sets WindowManager preferredDisplayModeId to the highest available mode.",
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "unpkg": "dist/plugin.js",
+  "files": [
+    "dist/",
+    "ios/Sources/",
+    "android/src/",
+    "android/build.gradle",
+    "Package.swift",
+    "CapacitorHighRefreshRate.podspec"
+  ],
+  "author": "Anthony Juarez Solis <anthonyjuarezsolis@icloud.com>",
+  "license": "MIT",
+  "keywords": [
+    "capacitor",
+    "plugin",
+    "ios",
+    "android",
+    "refresh-rate",
+    "promotion",
+    "120hz",
+    "high-refresh-rate",
+    "webview",
+    "wkwebview"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anthonyjuarezsolis/capacitor-high-refresh-rate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anthonyjuarezsolis/capacitor-high-refresh-rate/issues"
+  },
+  "homepage": "https://github.com/anthonyjuarezsolis/capacitor-high-refresh-rate#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run tsc && rollup -c rollup.config.mjs",
+    "clean": "rimraf ./dist",
+    "tsc": "tsc",
+    "watch": "tsc --watch"
+  },
+  "devDependencies": {
+    "@capacitor/core": "^8.0.0",
+    "rimraf": "^5.0.0",
+    "rollup": "^4.9.0",
+    "typescript": "^5.4.0"
+  },
+  "peerDependencies": {
+    "@capacitor/core": "^7.0.0 || ^8.0.0"
+  },
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    },
+    "android": {
+      "src": "android"
+    }
+  }
+}
