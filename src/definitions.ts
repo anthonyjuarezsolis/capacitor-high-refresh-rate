@@ -38,12 +38,16 @@ export interface RefreshRateInfo {
    *    the first few matching 60fps/refreshrate/framerate/rendering
    */
   diagnostic?: string;
-  /** iOS-only: whether the pacing CADisplayLink is running. */
+  /** Whether the per-frame pacing counter is running. iOS: the pacing
+   *  CADisplayLink. Android: the Choreographer frame callback (only runs in
+   *  high-rate mode; paused on idle to preserve battery). */
   pacingActive?: boolean;
   /** iOS-only: preferredFrameRate of the pacing CADisplayLink (typically maxHz). */
   pacingPreferredFps?: number;
-  /** iOS-only: cumulative tick count since enable() — useful to confirm the
-   *  link is actually firing at the expected rate (delta should match maxHz). */
+  /** Cumulative compositor-frame tick count. iOS: CADisplayLink ticks. Android:
+   *  Choreographer.FrameCallback ticks (real VSYNC frames delivered to the
+   *  window — catches ARR rate-caps that `currentHz`/the display mode hide).
+   *  Read the delta start→end over a window to measure the real cadence. */
   pacingTickCount?: number;
   /** iOS-only: whether the WKWebView responded to `_updateVisibleContentRects`. */
   pacingSelectorResponds?: boolean;
@@ -57,6 +61,22 @@ export interface RefreshRateInfo {
    * even though rAF callbacks fire only 60 times per second.
    */
   compositorFps?: number;
+  /**
+   * Android 15+ only: whether the device exposes Adaptive Refresh Rate (ARR)
+   * via `Display.hasArrSupport()`. When `true`, setting only the display mode
+   * is NOT enough — the WebView's Chromium compositor votes the HIGH frame
+   * rate *category*, which on some Samsung devices maps to 90Hz instead of
+   * 120Hz. The plugin additionally votes an exact frame rate on the WebView
+   * (`View.setRequestedFrameRate`) to break out of that category cap.
+   */
+  arrSupported?: boolean;
+  /**
+   * Android 15+ only: the value currently returned by
+   * `webView.getRequestedFrameRate()`. Positive = exact Hz vote applied (e.g.
+   * `120.0` means the rAF cap workaround is active). Negative = a frame rate
+   * *category* is set (the unfixed default that caps at HIGH=90 on Samsung).
+   */
+  webViewRequestedFrameRate?: number;
 }
 
 export interface EnableHighRefreshRateOptions {

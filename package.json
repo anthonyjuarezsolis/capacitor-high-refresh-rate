@@ -1,6 +1,6 @@
 {
   "name": "@ajuarezso/capacitor-high-refresh-rate",
-  "version": "0.6.0",
+  "version": "0.7.1",
   "description": "Capacitor plugin to unlock ProMotion / high refresh rate (90Hz/120Hz) on iOS and Android. On iOS uses Info.plist + WebKit private feature flag to bypass WKWebView 60Hz cap. On Android sets WindowManager preferredDisplayModeId to the highest available mode.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
